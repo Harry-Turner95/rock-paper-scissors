@@ -7,7 +7,6 @@ return input.toLowerCase();
 
 
 function getComputerChoice (){
-
 const randomNumber = Math.random()
 if (randomNumber < 0.33){ 
     return "rock";
@@ -26,31 +25,49 @@ function playGame(){
 
     function playRound(humanChoice, computerChoice){
     if (humanChoice === computerChoice){
-        console.log("It's a tie!");
+    resultsDiv.textContent = `It's a tie! You both chose ${humanChoice}`;
     }
+
+    if (humanScore === 5 || computerScore === 5){
+        return;
+    }
+
     else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
         humanScore++;
-        console.log(`You win! ${humanChoice} beats ${computerChoice}!`);
+        resultsDiv.textContent = (`You win! ${humanChoice} beats ${computerChoice}!`);
     }
     else {
         computerScore++;
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}!`);
+        resultsDiv.textContent = (`You lose! ${computerChoice} beats ${humanChoice}!`);
+    }
+
+    scoreDiv.textContent = `Score: You ${humanScore} - Computer ${computerScore}`;
+
+    if (humanScore === 5){
+        resultsDiv.textContent = "You win the game!";
+    }
+
+    if (computerScore === 5){
+        resultsDiv.textContent = "Computer wins the game!";
     }
 }
 
-    for (let i = 0; i < 5; i++){
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
+const rockBtn = document.querySelector('#rock');
+const paperBtn = document.querySelector('#paper');
+const scissorsBtn = document.querySelector('#scissors');
+const resultsDiv = document.querySelector('#results');
+const scoreDiv = document.querySelector('#score');
 
-        playRound(humanChoice, computerChoice);
+rockBtn.addEventListener('click', () => playRound("rock", getComputerChoice()));
+paperBtn.addEventListener('click', () => playRound("paper", getComputerChoice()));
+scissorsBtn.addEventListener('click', () => playRound("scissors", getComputerChoice()));
 
-        console.log(`Round ${i+1} Score: You ${humanScore} - Computer ${computerScore}`);
 
-    }
+
 
 }
   playGame();
